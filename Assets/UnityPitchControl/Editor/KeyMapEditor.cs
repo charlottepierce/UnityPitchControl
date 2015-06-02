@@ -49,8 +49,7 @@ namespace UnityPitchControl.Editor {
 					PitchMapping m = _inputManager.PitchMappings.Mappings[i];
 					
 					GUILayout.BeginHorizontal();
-					EditorGUIUtility.labelWidth = 40;
-					m.control = EditorGUILayout.IntField(" if Pitch (Hz)", m.control, GUILayout.MaxWidth(75));
+					EditorGUILayout.LabelField("if pitch (Hz)", GUILayout.MaxWidth(70));
 					EditorGUIUtility.labelWidth = 15;
 					m.minVal = EditorGUILayout.IntField(">", m.minVal, GUILayout.MaxWidth(50));
 					EditorGUIUtility.labelWidth = 50;
