@@ -13,7 +13,7 @@ namespace UnityPitchControl.Input {
 		public PitchTracker _pitchTracker;
 		public int _lastPitch = 0;
 		
-		public static InputManager _instance;
+		private static InputManager _instance;
 		private void Awake() {
 			_instance = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
 			if (_instance == null) {

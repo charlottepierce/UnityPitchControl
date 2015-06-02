@@ -45,25 +45,14 @@ namespace UnityPitchControl.Input {
 	
 	[Serializable]
 	public class PitchMapping {
-		public int control;
 		public int minVal; // exclusive - value must be greater than this to trigger the key
 		public int maxVal; // inclusive - value must be less than or equal to this to trigger the key
 		public string key; // key activated (e.g., "x")
 		
-		// used to determine the exact key event that should be triggered, and then update this next frame
-		public bool conditionMet;
-		public bool keyDown;
-		public bool keyUp;
-		
 		public PitchMapping(int minVal, int maxVal, string key) {
-			this.control = control;
 			this.minVal = minVal;
 			this.maxVal = maxVal;
 			this.key = key;
-			
-			conditionMet = false;
-			keyDown = false;
-			keyUp = false;
 		}
 	}
 }
