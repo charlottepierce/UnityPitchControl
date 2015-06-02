@@ -37,7 +37,7 @@ namespace UnityPitchControl.Editor {
 
 			// make sure audioInput index matches the currently selected audio input
 			for (int i = 0; i < audioInputs.Length; ++i) {
-				if (audioInputs[i] == _inputManager.AudioInput) {
+				if (audioInputs[i] == _inputManager._audioDevice) {
 					audioInput = i;
 				}
 			}
@@ -55,7 +55,7 @@ namespace UnityPitchControl.Editor {
 			int selection = GUILayout.SelectionGrid(audioInput, audioInputs, 1, EditorStyles.radioButton);
 			if (selection != audioInput) {
 				audioInput = selection;
-				_inputManager.AudioInput = audioInputs[audioInput];
+				_inputManager._audioDevice = audioInputs[audioInput];
 			}
 			
 			_mappingsScrollPos = EditorGUILayout.BeginScrollView(_mappingsScrollPos);
