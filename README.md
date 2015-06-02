@@ -6,6 +6,8 @@ Direct button presses (i.e., using the keyboard rather than a mapped instrument)
 
 UnityPitchControl was tested on Unity version __4.6.2f1__.
 
+This project is based on [Realtime C# Pitch Tracker](https://pitchtracker.codeplex.com/).
+
 ## Use: ##
 
 1. Copy the contents of __Assets__ into the _Assets_ folder of your project
