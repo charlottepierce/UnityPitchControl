@@ -133,37 +133,25 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public static bool GetKeyUp(string name) {
-//			if (name == "none") return false;
-//			
-//			if ((_instance != null) && _instance.MapsKey(name)) {
-//				List<int> triggers = _instance.KeyMappings.GetTriggers(name);
-//				bool keyTriggered = false;
-//				foreach (int t in triggers) {
-//					if (MidiInput.GetKeyUp(t)) {
-//						keyTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				// check if any control mappings are triggered
-//				bool controlTriggered = false;
-//				foreach (ControlMapping m in _instance.ControlMappings.GetMappings(name)) {
-//					if (m.keyUp) {
-//						controlTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				return keyTriggered || controlTriggered || UnityEngine.Input.GetKeyUp(name);
-//			} else {
-//				return UnityEngine.Input.GetKeyUp(name);
-//			}
-			return false;
+			if (name == "none") return false;
+			
+			if ((_instance != null) && _instance.MapsKey(name)) {
+				bool mappingTriggered = false;
+				foreach (PitchMapping m in _instance.PitchMappings.GetMappings(name)) {
+					if (m.keyUp) {
+						mappingTriggered = true;
+						break;
+					}
+				}
+				
+				return mappingTriggered || UnityEngine.Input.GetKeyUp(name);
+			} else {
+				return UnityEngine.Input.GetKeyUp(name);
+			}
 		}
 		
 		public static bool GetKeyUp(KeyCode key) {
-//			return GetKeyUp(key.ToString().ToLower());
-			return false;
+			return GetKeyUp(key.ToString().ToLower());
 		}
 	}
 }

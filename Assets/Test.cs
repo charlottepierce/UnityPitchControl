@@ -16,17 +16,17 @@ public class Test : MonoBehaviour {
 			Debug.Log("'d' down");
 		}
 		
-//		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.A)) {
-//			Debug.Log("'a' up");
-//		}
-//		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.B)) {
-//			Debug.Log("'b' up");
-//		}
-//		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.C)) {
-//			Debug.Log("'c' up");
-//		}
-//		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.D)) {
-//			Debug.Log("'d' up");
-//		}
+		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.A)) {
+			Debug.Log("'a' up");
+		}
+		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.B)) {
+			Debug.Log("'b' up");
+		}
+		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.C)) {
+			Debug.Log("'c' up");
+		}
+		if (UnityPitchControl.Input.InputManager.GetKeyUp(KeyCode.D)) {
+			Debug.Log("'d' up");
+		}
 	}
 }
