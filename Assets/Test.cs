@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Test : MonoBehaviour {
 	void Update () {
+		if (UnityPitchControl.Input.InputManager._instance.MapsKey("a")) {
+			Debug.Log("Maps key A");
+		}
+
 		if (UnityPitchControl.Input.InputManager.GetKey(KeyCode.A)) {
 			Debug.Log("'a' down");
 		}

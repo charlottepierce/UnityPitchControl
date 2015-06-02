@@ -26,9 +26,9 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public bool MapsKey(string key) {
-//			foreach (PitchMapping m in Mappings) {
-//				if (m.key == key) return true;
-//			}
+			foreach (PitchMapping m in Mappings) {
+				if (m.key == key) return true;
+			}
 			
 			return false;
 		}

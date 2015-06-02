@@ -13,7 +13,7 @@ namespace UnityPitchControl.Input {
 		public PitchTracker _pitchTracker;
 		public int _lastPitch = 0;
 		
-		private static InputManager _instance;
+		public static InputManager _instance;
 		private void Awake() {
 			_instance = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
 			if (_instance == null) {
@@ -70,12 +70,7 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public bool MapsKey(string key) {
-//			return KeyMappings.MapsKey(key) || ControlMappings.MapsKey(key);
-			return false;
-		}
-		
-		public void MapKey(int trigger, string key) {
-//			KeyMappings.MapKey(trigger, key);
+			return PitchMappings.MapsKey(key);
 		}
 		
 		public void MapPitch(int minVal, int maxVal, string key) {
