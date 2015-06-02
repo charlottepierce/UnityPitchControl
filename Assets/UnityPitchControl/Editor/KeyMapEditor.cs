@@ -58,7 +58,7 @@ namespace UnityPitchControl.Editor {
 					m.key = EditorGUILayout.TextField("trigger:", m.key, GUILayout.MaxWidth(120)); // TODO: validate that this is a real key
 					
 					if (GUILayout.Button("-", GUILayout.MaxWidth(25))) {
-						_inputManager.RemoveMapping(m.control, m.minVal, m.maxVal, m.key);
+						_inputManager.RemoveMapping(m.minVal, m.maxVal, m.key);
 					}
 					GUILayout.EndHorizontal();
 				}

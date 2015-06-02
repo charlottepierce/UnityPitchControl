@@ -56,12 +56,8 @@ namespace UnityPitchControl.Input {
 			PitchMappings.MapPitch(minVal, maxVal, key);
 		}
 		
-		public void RemoveMapping(int trigger, string key) {
-//			KeyMappings.RemoveMapping(trigger, key);
-		}
-		
-		public void RemoveMapping(int control, int minVal, int maxVal, string key) {
-//			ControlMappings.RemoveMapping(control, minVal, maxVal, key);
+		public void RemoveMapping(int minVal, int maxVal, string key) {
+			PitchMappings.RemoveMapping(minVal, maxVal, key);
 		}
 		
 		public static bool GetKey(string name) {

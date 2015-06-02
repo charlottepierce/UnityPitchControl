@@ -11,14 +11,14 @@ namespace UnityPitchControl.Input {
 			Mappings = new List<PitchMapping>();
 		}
 		
-		public void RemoveMapping(int control, int minVal, int maxVal, string key) {
-//			for (int i = Mappings.Count - 1; i >= 0; --i) {
-//				PitchMapping m = Mappings[i];
-//				if ((m.control == control) && (m.minVal == minVal) && (m.maxVal == maxVal) && (m.key == key)) {
-//					Mappings.RemoveAt(i);
-//					return; // if there are multiple mappings with the same settings, only the first will be removed
-//				}
-//			}
+		public void RemoveMapping(int minVal, int maxVal, string key) {
+			for (int i = Mappings.Count - 1; i >= 0; --i) {
+				PitchMapping m = Mappings[i];
+				if ((m.minVal == minVal) && (m.maxVal == maxVal) && (m.key == key)) {
+					Mappings.RemoveAt(i);
+					return; // if there are multiple mappings with the same settings, only the first will be removed
+				}
+			}
 		}
 		
 		public void MapPitch(int minVal, int maxVal, string key) {
