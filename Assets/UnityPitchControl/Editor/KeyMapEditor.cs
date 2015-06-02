@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEditor;
+using UnityPitchControl.Input;
 using System.Collections.Generic;
 
 namespace UnityPitchControl.Editor {
 	public class KeyMapEditor : EditorWindow {
-//		private InputManager _inputManager;
+		private InputManager _inputManager;
 //		private Vector2 _scrollPos = Vector2.zero;
 		
 		[MenuItem("Pitch Input/Edit Key Mappings")]
@@ -14,25 +15,25 @@ namespace UnityPitchControl.Editor {
 		}
 		
 		public void OnEnable() {
-//			_inputManager = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
-//			if (_inputManager == null) {
-//				// try to load prefab
-//				Object managerPrefab = Resources.Load("InputManager"); // looks inside all 'Resources' folders in 'Assets'
-//				if (managerPrefab != null) {
-//					Object prefab = Instantiate(managerPrefab);
-//					prefab.name = "InputManager"; // otherwise creates a game object with "(Clone)" appended to the name
-//				} else if (UnityEngine.Object.FindObjectOfType(typeof(InputManager)) == null) {
-//					// no prefab found, create new input manager
-//					GameObject gameObject = new GameObject("InputManager");
-//					gameObject.AddComponent<InputManager>();
-//					DontDestroyOnLoad(gameObject);
-//				}
-//				_inputManager = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
-//			}
+			_inputManager = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
+			if (_inputManager == null) {
+				// try to load prefab
+				Object managerPrefab = Resources.Load("InputManager"); // looks inside all 'Resources' folders in 'Assets'
+				if (managerPrefab != null) {
+					Object prefab = Instantiate(managerPrefab);
+					prefab.name = "InputManager"; // otherwise creates a game object with "(Clone)" appended to the name
+				} else if (UnityEngine.Object.FindObjectOfType(typeof(InputManager)) == null) {
+					// no prefab found, create new input manager
+					GameObject gameObject = new GameObject("InputManager");
+					gameObject.AddComponent<InputManager>();
+					DontDestroyOnLoad(gameObject);
+				}
+				_inputManager = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
+			}
 		}
 		
 		public void OnDisable() {
-//			SavePrefab();
+			SavePrefab();
 		}
 		
 		public void OnGUI() {
@@ -99,13 +100,13 @@ namespace UnityPitchControl.Editor {
 		}
 		
 		private void SavePrefab() {
-//			if (!System.IO.Directory.Exists("Assets/UnityMidiControl/Resources")) {
-//				System.IO.Directory.CreateDirectory("Assets/UnityMidiControl/Resources");
-//			}
-//			
-//			GameObject inputManager = GameObject.Find("InputManager");
-//			PrefabUtility.CreatePrefab("Assets/UnityMidiControl/Resources/InputManager.prefab", inputManager);
-//			AssetDatabase.Refresh();
+			if (!System.IO.Directory.Exists("Assets/UnityPitchControl/Resources")) {
+				System.IO.Directory.CreateDirectory("Assets/UnityPitchControl/Resources");
+			}
+			
+			GameObject inputManager = GameObject.Find("InputManager");
+			PrefabUtility.CreatePrefab("Assets/UnityPitchControl/Resources/InputManager.prefab", inputManager);
+			AssetDatabase.Refresh();
 		}
 	}
 }
