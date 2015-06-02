@@ -50,11 +50,10 @@ namespace UnityPitchControl.Input {
 		
 		public void MapKey(int trigger, string key) {
 //			KeyMappings.MapKey(trigger, key);
-			return false;
 		}
 		
-		public void MapControl(int control, int minVal, int maxVal, string key) {
-//			ControlMappings.MapControl(control, minVal, maxVal, key);
+		public void MapPitch(int minVal, int maxVal, string key) {
+			PitchMappings.MapPitch(minVal, maxVal, key);
 		}
 		
 		public void RemoveMapping(int trigger, string key) {

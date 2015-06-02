@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace UnityPitchControl.Editor {
 	public class KeyMapEditor : EditorWindow {
 		private InputManager _inputManager;
-//		private Vector2 _scrollPos = Vector2.zero;
+		private Vector2 _scrollPos = Vector2.zero;
 		
 		[MenuItem("Pitch Input/Edit Key Mappings")]
 		public static void ShowWindow() {
@@ -37,66 +37,41 @@ namespace UnityPitchControl.Editor {
 		}
 		
 		public void OnGUI() {
-//			if (_inputManager == null) {
-//				OnEnable(); // reload input manager; required when editor window opens with unity (instead of being opened from the menu) and no prefab exists
-//			}
-//			
+			if (_inputManager == null) {
+				OnEnable(); // reload input manager; required when editor window opens with unity (instead of being opened from the menu) and no prefab exists
+			}
+			
 //			_scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
-//			if (_inputManager.KeyMappings.Mappings.Count > 0) {
-//				EditorGUILayout.LabelField("Key Mappings: ", EditorStyles.boldLabel);
-//				
-//				for (int i = _inputManager.KeyMappings.Mappings.Count - 1; i >= 0; --i) {
-//					KeyMapping m = _inputManager.KeyMappings.Mappings[i];
-//					
-//					GUILayout.BeginHorizontal();
-//					EditorGUIUtility.labelWidth = 90;
-//					m.trigger = EditorGUILayout.IntField(" Note Number:", m.trigger, GUILayout.MaxWidth(130));
-//					EditorGUIUtility.labelWidth = 60;
-//					m.key = EditorGUILayout.TextField("Triggers:", m.key, GUILayout.MaxWidth(130));
-//					
-//					if (GUILayout.Button("-", GUILayout.MaxWidth(25))) {
-//						_inputManager.RemoveMapping(m.trigger, m.key);
-//					}
-//					GUILayout.EndHorizontal();
-//				}
-//			}
-//			
-//			if (_inputManager.ControlMappings.Mappings.Count > 0) {
-//				EditorGUILayout.LabelField("Control Mappings: ", EditorStyles.boldLabel);
-//				
-//				for (int i = _inputManager.ControlMappings.Mappings.Count - 1; i >= 0; --i) {
-//					ControlMapping m = _inputManager.ControlMappings.Mappings[i];
-//					
-//					GUILayout.BeginHorizontal();
-//					EditorGUIUtility.labelWidth = 40;
-//					m.control = EditorGUILayout.IntField(" if CC", m.control, GUILayout.MaxWidth(75));
-//					EditorGUIUtility.labelWidth = 15;
-//					m.minVal = EditorGUILayout.IntField(">", m.minVal, GUILayout.MaxWidth(50));
-//					EditorGUIUtility.labelWidth = 50;
-//					m.maxVal = EditorGUILayout.IntField("and <=", m.maxVal, GUILayout.MaxWidth(85));
-//					EditorGUIUtility.labelWidth = 50;
-//					m.key = EditorGUILayout.TextField("trigger:", m.key, GUILayout.MaxWidth(120)); // TODO: validate that this is a real key
-//					
-//					if (GUILayout.Button("-", GUILayout.MaxWidth(25))) {
-//						_inputManager.RemoveMapping(m.control, m.minVal, m.maxVal, m.key);
-//					}
-//					GUILayout.EndHorizontal();
-//				}
-//			}
+			if (_inputManager.PitchMappings.Mappings.Count > 0) {
+				EditorGUILayout.LabelField("Pitch Mappings: ", EditorStyles.boldLabel);
+				
+				for (int i = _inputManager.PitchMappings.Mappings.Count - 1; i >= 0; --i) {
+					PitchMapping m = _inputManager.PitchMappings.Mappings[i];
+					
+					GUILayout.BeginHorizontal();
+					EditorGUIUtility.labelWidth = 40;
+					m.control = EditorGUILayout.IntField(" if Pitch (Hz)", m.control, GUILayout.MaxWidth(75));
+					EditorGUIUtility.labelWidth = 15;
+					m.minVal = EditorGUILayout.IntField(">", m.minVal, GUILayout.MaxWidth(50));
+					EditorGUIUtility.labelWidth = 50;
+					m.maxVal = EditorGUILayout.IntField("and <=", m.maxVal, GUILayout.MaxWidth(85));
+					EditorGUIUtility.labelWidth = 50;
+					m.key = EditorGUILayout.TextField("trigger:", m.key, GUILayout.MaxWidth(120)); // TODO: validate that this is a real key
+					
+					if (GUILayout.Button("-", GUILayout.MaxWidth(25))) {
+						_inputManager.RemoveMapping(m.control, m.minVal, m.maxVal, m.key);
+					}
+					GUILayout.EndHorizontal();
+				}
+			}
 //			EditorGUILayout.EndScrollView();
-//			
-//			GUILayout.BeginHorizontal();
-//			if (GUILayout.Button("New Key Mapping", GUILayout.MaxWidth(182))) {
-//				_inputManager.MapKey(-1, "");
-//			}
-//			if (GUILayout.Button("New Control Mapping", GUILayout.MaxWidth(182))) {
-//				_inputManager.MapControl(-1, -1, -1, "");
-//			}
-//			GUILayout.EndHorizontal();
-//			
-//			if (GUILayout.Button("Save Mappings", GUILayout.MaxWidth(369))) {
-//				SavePrefab();
-//			}
+
+			if (GUILayout.Button("New Pitch Mapping", GUILayout.MaxWidth(369))) {
+				_inputManager.MapPitch(-1, -1, "");
+			}
+			if (GUILayout.Button("Save Mappings", GUILayout.MaxWidth(369))) {
+				SavePrefab();
+			}
 		}
 		
 		private void SavePrefab() {

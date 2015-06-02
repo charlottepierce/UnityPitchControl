@@ -21,8 +21,8 @@ namespace UnityPitchControl.Input {
 //			}
 		}
 		
-		public void MapControl(int control, int minVal, int maxVal, string key) {
-//			Mappings.Insert(0, new PitchMapping(control, minVal, maxVal, key));
+		public void MapPitch(int minVal, int maxVal, string key) {
+			Mappings.Insert(0, new PitchMapping(minVal, maxVal, key));
 		}
 		
 		public bool MapsKey(string key) {
@@ -39,7 +39,7 @@ namespace UnityPitchControl.Input {
 //				if (m.key == key) mappings.Add(m);
 //			}
 			
-			return new List<PitchMapping>;
+			return new List<PitchMapping>();
 		}
 	}
 	
@@ -55,7 +55,7 @@ namespace UnityPitchControl.Input {
 		public bool keyDown;
 		public bool keyUp;
 		
-		public PitchMapping(int control, int minVal, int maxVal, string key) {
+		public PitchMapping(int minVal, int maxVal, string key) {
 			this.control = control;
 			this.minVal = minVal;
 			this.maxVal = maxVal;
