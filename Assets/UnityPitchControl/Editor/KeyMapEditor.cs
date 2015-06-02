@@ -51,7 +51,7 @@ namespace UnityPitchControl.Editor {
 				OnEnable(); // reload input manager; required when editor window opens with unity (instead of being opened from the menu) and no prefab exists
 			}
 			EditorGUILayout.LabelField("Audio Settings: ", EditorStyles.boldLabel);
-			int selection = GUILayout.SelectionGrid(audioInput, audioInputs, audioInputs.Length, EditorStyles.radioButton);
+			int selection = GUILayout.SelectionGrid(audioInput, audioInputs, 1, EditorStyles.radioButton);
 			if (selection != audioInput) {
 				audioInput = selection;
 				_inputManager.AudioInput = audioInputs[audioInput];
