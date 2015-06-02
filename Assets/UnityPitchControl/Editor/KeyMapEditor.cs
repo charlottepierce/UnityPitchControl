@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace UnityPitchControl.Editor {
 	public class KeyMapEditor : EditorWindow {
 		private InputManager _inputManager;
+
 		private string[] audioInputs = Microphone.devices; // names of possible audio inputs
 		private int audioInput = 0; // index of currently used audio input
 

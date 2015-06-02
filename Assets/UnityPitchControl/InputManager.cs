@@ -1,11 +1,16 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Pitch;
 
 namespace UnityPitchControl.Input {
 	public sealed class InputManager : MonoBehaviour {
 		public PitchMappings PitchMappings = new PitchMappings();
-		public String AudioInput = "";
+
+		public String AudioInput = ""; // name of the audio device
+		public AudioClip _micInput;
+		public float[] _samples;
+		public PitchTracker _pitchTracker;
 		
 		private static InputManager _instance;
 		private void Awake() {
@@ -25,24 +30,42 @@ namespace UnityPitchControl.Input {
 				}
 				_instance = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
 			}
+
+			// start recording
+			int minFreq, maxFreq;
+			Microphone.GetDeviceCaps(AudioInput, out minFreq, out maxFreq);
+			if (minFreq > 0) _micInput = Microphone.Start(AudioInput, true, 1, minFreq);
+			else _micInput = Microphone.Start(AudioInput, true, 1, 44000);
+
+			// prepare for pitch tracking
+			_samples = new float[_micInput.samples * _micInput.channels];
+			_pitchTracker = new PitchTracker();
+			_pitchTracker.SampleRate = _micInput.samples;
+			_pitchTracker.PitchDetected += new PitchTracker.PitchDetectedHandler(PitchDetectedListener);
 		}
 		
 		public void Update() {
+			_micInput.GetData(_samples, 0);
+			_pitchTracker.ProcessBuffer(_samples);
+
 			// update the state of each pitch mapping
-			foreach (PitchMapping m in PitchMappings.Mappings) {
+//			foreach (PitchMapping m in PitchMappings.Mappings) {
 //				float controlVal = MidiInput.GetKnob(m.control) * 127;
-				float controlVal = 0f;
-				bool conditionMet = (controlVal > m.minVal) && (controlVal <= m.maxVal);
-				
-				m.keyDown = false;
-				m.keyUp = false;
-				if ((conditionMet) && (!m.conditionMet)) {
-					m.keyDown = true; // first time condition is met - KeyDown event
-				} else if ((!conditionMet) && (m.conditionMet)) {
-					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
-				}
-				m.conditionMet = conditionMet;
-			}
+//				bool conditionMet = (controlVal > m.minVal) && (controlVal <= m.maxVal);
+//				
+//				m.keyDown = false;
+//				m.keyUp = false;
+//				if ((conditionMet) && (!m.conditionMet)) {
+//					m.keyDown = true; // first time condition is met - KeyDown event
+//				} else if ((!conditionMet) && (m.conditionMet)) {
+//					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
+//				}
+//				m.conditionMet = conditionMet;
+//			}
+		}
+
+		private void PitchDetectedListener(PitchTracker sender, PitchTracker.PitchRecord pitchRecord) {
+			if (pitchRecord.Pitch > 0) Debug.Log("Pitch detected (" + pitchRecord.Pitch + ")");
 		}
 		
 		public bool MapsKey(string key) {
