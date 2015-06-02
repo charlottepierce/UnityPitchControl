@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace UnityPitchControl.Input {
 	public sealed class InputManager : MonoBehaviour {
 		public PitchMappings PitchMappings = new PitchMappings();
+		public String AudioInput = "";
 		
 		private static InputManager _instance;
 		private void Awake() {
@@ -27,20 +28,21 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public void Update() {
-			// update the state of each control mapping
-//			foreach (ControlMapping m in ControlMappings.Mappings) {
+			// update the state of each pitch mapping
+			foreach (PitchMapping m in PitchMappings.Mappings) {
 //				float controlVal = MidiInput.GetKnob(m.control) * 127;
-//				bool conditionMet = (controlVal > m.minVal) && (controlVal <= m.maxVal);
-//				
-//				m.keyDown = false;
-//				m.keyUp = false;
-//				if ((conditionMet) && (!m.conditionMet)) {
-//					m.keyDown = true; // first time condition is met - KeyDown event
-//				} else if ((!conditionMet) && (m.conditionMet)) {
-//					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
-//				}
-//				m.conditionMet = conditionMet;
-//			}
+				float controlVal = 0f;
+				bool conditionMet = (controlVal > m.minVal) && (controlVal <= m.maxVal);
+				
+				m.keyDown = false;
+				m.keyUp = false;
+				if ((conditionMet) && (!m.conditionMet)) {
+					m.keyDown = true; // first time condition is met - KeyDown event
+				} else if ((!conditionMet) && (m.conditionMet)) {
+					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
+				}
+				m.conditionMet = conditionMet;
+			}
 		}
 		
 		public bool MapsKey(string key) {

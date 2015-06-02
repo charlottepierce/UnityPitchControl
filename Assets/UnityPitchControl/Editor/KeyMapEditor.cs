@@ -6,7 +6,10 @@ using System.Collections.Generic;
 namespace UnityPitchControl.Editor {
 	public class KeyMapEditor : EditorWindow {
 		private InputManager _inputManager;
-		private Vector2 _scrollPos = Vector2.zero;
+		private string[] audioInputs = Microphone.devices; // names of possible audio inputs
+		private int audioInput = 0; // index of currently used audio input
+
+		private Vector2 _mappingsScrollPos = Vector2.zero;
 		
 		[MenuItem("Pitch Input/Edit Key Mappings")]
 		public static void ShowWindow() {
@@ -30,6 +33,13 @@ namespace UnityPitchControl.Editor {
 				}
 				_inputManager = UnityEngine.Object.FindObjectOfType(typeof(InputManager)) as InputManager;
 			}
+
+			// make sure audioInput index matches the currently selected audio input
+			for (int i = 0; i < audioInputs.Length; ++i) {
+				if (audioInputs[i] == _inputManager.AudioInput) {
+					audioInput = i;
+				}
+			}
 		}
 		
 		public void OnDisable() {
@@ -40,8 +50,14 @@ namespace UnityPitchControl.Editor {
 			if (_inputManager == null) {
 				OnEnable(); // reload input manager; required when editor window opens with unity (instead of being opened from the menu) and no prefab exists
 			}
+			EditorGUILayout.LabelField("Audio Settings: ", EditorStyles.boldLabel);
+			int selection = GUILayout.SelectionGrid(audioInput, audioInputs, audioInputs.Length, EditorStyles.radioButton);
+			if (selection != audioInput) {
+				audioInput = selection;
+				_inputManager.AudioInput = audioInputs[audioInput];
+			}
 			
-			_scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+			_mappingsScrollPos = EditorGUILayout.BeginScrollView(_mappingsScrollPos);
 			if (_inputManager.PitchMappings.Mappings.Count > 0) {
 				EditorGUILayout.LabelField("Pitch Mappings: ", EditorStyles.boldLabel);
 				
