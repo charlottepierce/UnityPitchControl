@@ -51,18 +51,24 @@ namespace UnityPitchControl.Input {
 			_pitchTracker.ProcessBuffer(_samples);
 
 			// update the state of each pitch mapping
-//			foreach (PitchMapping m in PitchMappings.Mappings) {
-//				bool conditionMet = (_lastPitch > m.minVal) && (_lastPitch <= m.maxVal);
-//				
-//				m.keyDown = false;
-//				m.keyUp = false;
-//				if ((conditionMet) && (!m.conditionMet)) {
-//					m.keyDown = true; // first time condition is met - KeyDown event
-//				} else if ((!conditionMet) && (m.conditionMet)) {
-//					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
-//				}
-//				m.conditionMet = conditionMet;
-//			}
+			foreach (PitchMapping m in PitchMappings.Mappings) {
+				bool conditionMet = false;
+				foreach (int pitch in _detectedPitches) {
+					if ((pitch > m.minVal) && (pitch <= m.maxVal)) {
+						conditionMet =  true;
+						break;
+					}
+				}
+				
+				m.keyDown = false;
+				m.keyUp = false;
+				if ((conditionMet) && (!m.conditionMet)) {
+					m.keyDown = true; // first time condition is met - KeyDown event
+				} else if ((!conditionMet) && (m.conditionMet)) {
+					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
+				}
+				m.conditionMet = conditionMet;
+			}
 		}
 
 		private void PitchDetectedListener(PitchTracker sender, PitchTracker.PitchRecord pitchRecord) {
@@ -86,23 +92,18 @@ namespace UnityPitchControl.Input {
 			if (name == "none") return false;
 			
 			if ((_instance != null) && _instance.MapsKey(name)) {
-//				Debug.Log("KEY " + name + " MAPPED");
-				// check if any control mappings are triggered
-				bool pitchMappingTriggered = false;
+				bool mappingTriggered = false;
 				foreach (PitchMapping m in _instance.PitchMappings.GetMappings(name)) {
-					foreach (int pitch in _instance._detectedPitches) {
-						if ((pitch > m.minVal) && (pitch <= m.maxVal)) {
-							pitchMappingTriggered = true;
-							break;
-						}
+					if (m.conditionMet && !m.keyDown &!m.keyUp) {
+						mappingTriggered = true;
+						break;
 					}
 				}
 				
-				return pitchMappingTriggered || UnityEngine.Input.GetKey(name);
+				return mappingTriggered || UnityEngine.Input.GetKey(name);
 			} else {
 				return UnityEngine.Input.GetKey(name);
 			}
-			return false;
 		}
 		
 		public static bool GetKey(KeyCode key) {
