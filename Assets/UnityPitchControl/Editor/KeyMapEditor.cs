@@ -41,7 +41,7 @@ namespace UnityPitchControl.Editor {
 				OnEnable(); // reload input manager; required when editor window opens with unity (instead of being opened from the menu) and no prefab exists
 			}
 			
-//			_scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+			_scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
 			if (_inputManager.PitchMappings.Mappings.Count > 0) {
 				EditorGUILayout.LabelField("Pitch Mappings: ", EditorStyles.boldLabel);
 				
@@ -64,7 +64,7 @@ namespace UnityPitchControl.Editor {
 					GUILayout.EndHorizontal();
 				}
 			}
-//			EditorGUILayout.EndScrollView();
+			EditorGUILayout.EndScrollView();
 
 			if (GUILayout.Button("New Pitch Mapping", GUILayout.MaxWidth(369))) {
 				_inputManager.MapPitch(-1, -1, "");
