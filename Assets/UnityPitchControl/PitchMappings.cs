@@ -34,12 +34,12 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public List<PitchMapping> GetMappings(string key) {
-//			List<PitchMapping> mappings = new List<PitchMapping>();
-//			foreach (PitchMapping m in Mappings) {
-//				if (m.key == key) mappings.Add(m);
-//			}
+			List<PitchMapping> mappings = new List<PitchMapping>();
+			foreach (PitchMapping m in Mappings) {
+				if (m.key == key) mappings.Add(m);
+			}
 			
-			return new List<PitchMapping>();
+			return mappings;
 		}
 	}
 	

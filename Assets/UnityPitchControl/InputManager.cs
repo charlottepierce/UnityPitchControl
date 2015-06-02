@@ -11,7 +11,7 @@ namespace UnityPitchControl.Input {
 		public AudioClip _micInput;
 		public float[] _samples;
 		public PitchTracker _pitchTracker;
-		public int _lastPitch = 0;
+		public List<int> _detectedPitches;
 		
 		private static InputManager _instance;
 		private void Awake() {
@@ -46,27 +46,28 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public void Update() {
+			_detectedPitches.Clear(); // clear pitches from last update
 			_micInput.GetData(_samples, 0);
 			_pitchTracker.ProcessBuffer(_samples);
 
 			// update the state of each pitch mapping
-			foreach (PitchMapping m in PitchMappings.Mappings) {
-				bool conditionMet = (_lastPitch > m.minVal) && (_lastPitch <= m.maxVal);
-				
-				m.keyDown = false;
-				m.keyUp = false;
-				if ((conditionMet) && (!m.conditionMet)) {
-					m.keyDown = true; // first time condition is met - KeyDown event
-				} else if ((!conditionMet) && (m.conditionMet)) {
-					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
-				}
-				m.conditionMet = conditionMet;
-			}
+//			foreach (PitchMapping m in PitchMappings.Mappings) {
+//				bool conditionMet = (_lastPitch > m.minVal) && (_lastPitch <= m.maxVal);
+//				
+//				m.keyDown = false;
+//				m.keyUp = false;
+//				if ((conditionMet) && (!m.conditionMet)) {
+//					m.keyDown = true; // first time condition is met - KeyDown event
+//				} else if ((!conditionMet) && (m.conditionMet)) {
+//					m.keyUp = true; // condition was met last update and now isn't - KeyUp event
+//				}
+//				m.conditionMet = conditionMet;
+//			}
 		}
 
 		private void PitchDetectedListener(PitchTracker sender, PitchTracker.PitchRecord pitchRecord) {
 			int pitch = (int)Math.Round(pitchRecord.Pitch);
-			_lastPitch = pitch;
+			if (!_detectedPitches.Contains(pitch)) _detectedPitches.Add(pitch);
 		}
 		
 		public bool MapsKey(string key) {
@@ -82,38 +83,30 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public static bool GetKey(string name) {
-//			if (name == "none") return false;
-//			
-//			if ((_instance != null) && _instance.MapsKey(name)) {
-//				// check if any key mappings are triggered
-//				List<int> triggers = _instance.KeyMappings.GetTriggers(name);
-//				bool keyTriggered = false;
-//				foreach (int t in triggers) {
-//					if (MidiInput.GetKey(t) > 0.0f) {
-//						keyTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				// check if any control mappings are triggered
-//				bool controlTriggered = false;
-//				foreach (ControlMapping m in _instance.ControlMappings.GetMappings(name)) {
-//					if (m.conditionMet && !m.keyDown &!m.keyUp) {
-//						controlTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				return keyTriggered || controlTriggered || UnityEngine.Input.GetKey(name);
-//			} else {
-//				return UnityEngine.Input.GetKey(name);
-//			}
+			if (name == "none") return false;
+			
+			if ((_instance != null) && _instance.MapsKey(name)) {
+//				Debug.Log("KEY " + name + " MAPPED");
+				// check if any control mappings are triggered
+				bool pitchMappingTriggered = false;
+				foreach (PitchMapping m in _instance.PitchMappings.GetMappings(name)) {
+					foreach (int pitch in _instance._detectedPitches) {
+						if ((pitch > m.minVal) && (pitch <= m.maxVal)) {
+							pitchMappingTriggered = true;
+							break;
+						}
+					}
+				}
+				
+				return pitchMappingTriggered || UnityEngine.Input.GetKey(name);
+			} else {
+				return UnityEngine.Input.GetKey(name);
+			}
 			return false;
 		}
 		
 		public static bool GetKey(KeyCode key) {
-//			return GetKey(key.ToString().ToLower());
-			return false;
+			return GetKey(key.ToString().ToLower());
 		}
 		
 		public static bool GetKeyDown(string name) {
