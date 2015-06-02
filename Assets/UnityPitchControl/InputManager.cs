@@ -111,37 +111,25 @@ namespace UnityPitchControl.Input {
 		}
 		
 		public static bool GetKeyDown(string name) {
-//			if (name == "none") return false;
-//			
-//			if ((_instance != null) && _instance.MapsKey(name)) {
-//				List<int> triggers = _instance.KeyMappings.GetTriggers(name);
-//				bool keyTriggered = false;
-//				foreach (int t in triggers) {
-//					if (MidiInput.GetKeyDown(t)) {
-//						keyTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				// check if any control mappings are triggered
-//				bool controlTriggered = false;
-//				foreach (ControlMapping m in _instance.ControlMappings.GetMappings(name)) {
-//					if (m.keyDown) {
-//						controlTriggered = true;
-//						break;
-//					}
-//				}
-//				
-//				return keyTriggered || controlTriggered || UnityEngine.Input.GetKeyDown(name);
-//			} else {
-//				return UnityEngine.Input.GetKeyDown(name);
-//			}
-			return false;
+			if (name == "none") return false;
+			
+			if ((_instance != null) && _instance.MapsKey(name)) {
+				bool mappingTriggered = false;
+				foreach (PitchMapping m in _instance.PitchMappings.GetMappings(name)) {
+					if (m.keyDown) {
+						mappingTriggered = true;
+						break;
+					}
+				}
+				
+				return mappingTriggered || UnityEngine.Input.GetKeyDown(name);
+			} else {
+				return UnityEngine.Input.GetKeyDown(name);
+			}
 		}
 		
 		public static bool GetKeyDown(KeyCode key) {
-//			return GetKeyDown(key.ToString().ToLower());
-			return false;
+			return GetKeyDown(key.ToString().ToLower());
 		}
 		
 		public static bool GetKeyUp(string name) {
